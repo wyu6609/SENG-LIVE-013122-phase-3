@@ -1,30 +1,34 @@
 class Clinic < ActiveRecord::Base
-    has_many :patients, dependent: :destroy
+  has_many :patients, dependent: :destroy
 
-    # Activity 1 => Building Aggregate Class / Instance Methods
+  # Activity 1 => Building Aggregate Class / Instance Methods
 
-    # Class Methods
+  # Class Methods
 
-    # Return all clinic names
-    def self.all_clinic_names
-    end
+  # Return all clinic names
+  def self.all_clinic_names
+    self.pluck(:clinic_name)
+  end
 
-    # Return total number of clinics
-    def self.clinic_count
-    end
+  # Return total number of clinics
+  def self.clinic_count
+    self.count
+  end
 
-    # Return clinic with least number of patients
-    def self.least_patients
-    end
+  # Return clinic with least number of patients
+  def self.least_patients
+    self.all.min_by { |c| c.patients.length }
+  end
 
-    # Instance Methods
+  # Instance Methods
 
-    # Return clinic's total number of patients
-    def patient_count
-    end
+  # Return clinic's total number of patients
+  def patient_count
+    self.patients.length
+  end
 
-    # Return clinic's patient names
-    def patient_names
-    end
-end 
-
+  # Return clinic's patient names
+  def patient_names
+    self.patients.pluck(:name)
+  end
+end
